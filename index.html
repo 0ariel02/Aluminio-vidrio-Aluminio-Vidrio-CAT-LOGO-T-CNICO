@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Sistema de Cotización - Carpintería Aluminio & Vidrio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0077B6;
+            --primary-dark: #005A8C;
+            --primary-light: #E3F2FD;
+            --secondary: #00B4D8;
+            --accent: #FFB703;
+            --accent-dark: #E09F00;
+            --success: #10B981;
+            --danger: #EF4444;
+            --whatsapp: #25D366;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            --text-inverse: #FFFFFF;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-tertiary: #F1F5F9;
+            --border: #E2E8F0;
+            --border-strong: #CBD5E1;
+            --radius: 0.75rem;
+            --radius-sm: 0.5rem;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+            --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 1340px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.94);
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+        .logo-text span {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            display: block;
+        }
+        .nav {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            padding: 0.4rem 0.85rem;
+            border-radius: var(--radius-sm);
+            border: 2px solid transparent;
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .nav-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        /* Botones de acción en header */
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .btn-header {
+            padding: 0.4rem 0.85rem;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border-strong);
+            background: var(--bg-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            white-space: nowrap;
+        }
+        .btn-header:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .btn-header.accent {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #1a1a1a;
+        }
+        .btn-header.accent:hover {
+            background: var(--accent-dark);
+            border-color: var(--accent-dark);
+        }
+
+        /* Main */
+        .main {
+            padding: 1.5rem 0 4rem;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 1200px) {
+            .grid-3 {
+                grid-template-columns: 1fr 1.2fr 1fr;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1199px) {
+            .grid-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+            .grid-3 .card:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-primary);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            transition: box-shadow var(--transition);
+        }
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .badge {
+            font-size: 0.6rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+        .badge.green {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .badge.orange {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        /* Panel de precios */
+        .price-panel {
+            background: linear-gradient(135deg, #FFFDF7 0%, #FFFBEB 100%);
+            border: 2px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+            transition: all var(--transition);
+        }
+        .price-panel.collapsed .price-body {
+            display: none;
+        }
+        .price-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .price-header .arrow {
+            transition: transform var(--transition);
+            font-size: 0.7rem;
+        }
+        .price-panel.collapsed .arrow {
+            transform: rotate(-90deg);
+        }
+        .price-body {
+            margin-top: 0.75rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+        @media (max-width: 480px) {
+            .price-body {
+                grid-template-columns: 1fr;
+            }
+        }
+        .price-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        .price-field label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .price-field input {
+            padding: 0.45rem 0.6rem;
+            border: 2px solid var(--border-strong);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            background: white;
+            transition: border var(--transition);
+            width: 100%;
+        }
+        .price-field input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        .price-field .unit {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .price-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: white;
+            padding: 0.35rem 0.65rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+            color: var(--primary);
+        }
+
+        /* Controls */
+        .control-group {
+            margin-bottom: 1.25rem;
+        }
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 0.4rem;
+        }
+        .control-value {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 9999px;
+            outline: none;
+            transition: background var(--transition);
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--primary);
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition);
+        }
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        .slider-range {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.2rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Product grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
+        }
+        @media (min-width: 640px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .product-btn {
+            padding: 0.65rem 0.4rem;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.7rem;
+            color: var(--text-primary);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition);
+            line-height: 1.2;
+        }
+        .product-btn:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-strong);
+        }
+        .product-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        .product-btn .sub {
+            display: block;
+            font-weight: 400;
+            font-size: 0.55rem;
+            opacity: 0.7;
+            margin-top: 0.05rem;
+        }
+
+        /* Preview */
+        .preview-box {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 260px;
+            border: 2px dashed var(--border-strong);
+            position: relative;
+            overflow: hidden;
+        }
+        .preview-box svg {
+            max-width: 100%;
+            max-height: 240px;
+        }
+
+        /* Data grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .data-item {
+            text-align: center;
+            padding: 0.6rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+        .data-item strong {
+            display: block;
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+        .data-item span {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 600;
+        }
+
+        /* Componentes list */
+        .componentes-list {
+            margin-top: 1rem;
+            max-height: 350px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+        }
+        .componente-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0.5rem;
+            border-bottom: 1px solid var(--border);
+            gap: 0.4rem;
+        }
+        .componente-item:last-child {
+            border-bottom: none;
+        }
+        .componente-item .nombre {
+            font-weight: 500;
+            flex: 1;
+            font-size: 0.75rem;
+        }
+        .componente-item .medida {
+            font-weight: 700;
+            color: var(--primary);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            font-size: 0.75rem;
+        }
+        .componente-item .cantidad {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 600;
+            min-width: 1.8rem;
+            text-align: center;
+        }
+        .componente-item .tag {
+            font-size: 0.55rem;
+            background: var(--bg-tertiary);
+            padding: 0.1rem 0.35rem;
+            border-radius: 9999px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Resumen de costos */
+        .cost-summary {
+            margin-top: 1rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.35rem 0;
+            font-size: 0.8rem;
+            border-bottom: 1px dotted var(--border);
+        }
+        .cost-row:last-child {
+            border-bottom: none;
+        }
+        .cost-row.total {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--primary);
+            border-top: 2px solid var(--border-strong);
+            margin-top: 0.25rem;
+            padding-top: 0.5rem;
+        }
+        .cost-row .label {
+            color: var(--text-secondary);
+        }
+        .cost-row .value {
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Botones */
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            flex: 1;
+            min-width: 140px;
+            padding: 0.75rem 1rem;
+            background: var(--whatsapp);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            box-shadow: var(--shadow);
+        }
+        .btn-whatsapp:hover {
+            background: #1DA851;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(37, 211, 102, 0.3);
+        }
+        .btn-print {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            flex: 1;
+            min-width: 120px;
+            padding: 0.75rem 1rem;
+            background: var(--text-primary);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            box-shadow: var(--shadow);
+        }
+        .btn-print:hover {
+            background: #1E293B;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+        }
+        .btn-whatsapp svg,
+        .btn-print svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Notas */
+        .notas-box {
+            margin-top: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            background: #FFFDF7;
+            border-left: 3px solid var(--accent);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 0.7rem;
+            color: #6B5E0A;
+            line-height: 1.5;
+        }
+        .notas-box strong {
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: white;
+            padding: 0.7rem 1.4rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            opacity: 0;
+            transition: all var(--transition);
+            z-index: 999;
+            font-weight: 500;
+            font-size: 0.85rem;
+            max-width: 90vw;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Scrollbar */
+        .componentes-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .componentes-list::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 9999px;
+        }
+        .componentes-list::-webkit-scrollbar-thumb {
+            background: var(--border-strong);
+            border-radius: 9999px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hidden {
+            display: none !important;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* ======================== */
+        /* ESTILOS DE IMPRESIÓN     */
+        /* ======================== */
+        @media print {
+            body {
+                background: white !important;
+                color: #000 !important;
+                font-size: 11px;
+            }
+            .header,
+            .nav,
+            .btn-group,
+            .btn-whatsapp,
+            .btn-print,
+            .btn-header,
+            .price-panel,
+            .toast,
+            #panelPrecios,
+            #productSelector,
+            #standardControls,
+            #btnCotizar,
+            #btnImprimir,
+            .slider,
+            .control-group,
+            .nav-btn,
+            .header-actions,
+            .badge {
+                display: none !important;
+            }
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                break-inside: avoid;
+                padding: 0.75rem !important;
+            }
+            .grid-3 {
+                display: block !important;
+                grid-template-columns: none !important;
+            }
+            .grid-3>.card {
+                margin-bottom: 1rem;
+                width: 100%;
+            }
+            .preview-box {
+                border: 2px solid #000 !important;
+                background: #fafafa !important;
+            }
+            .preview-box svg {
+                max-width: 100%;
+                max-height: 200px;
+            }
+            .componentes-list {
+                max-height: none !important;
+                overflow: visible !important;
+                font-size: 0.7rem;
+            }
+            .cost-summary {
+                background: #f9f9f9 !important;
+                border: 1px solid #ccc !important;
+            }
+            .data-item {
+                border: 1px solid #ccc !important;
+                background: #fafafa !important;
+            }
+            .notas-box {
+                background: #fffef5 !important;
+                border-left: 3px solid #000 !important;
+                color: #333 !important;
+            }
+            @page {
+                margin: 1cm;
+                size: A4;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        .print-only {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            .card {
+                padding: 0.85rem;
+            }
+            .product-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .data-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            .componente-item {
+                font-size: 0.7rem;
+                flex-wrap: wrap;
+            }
+            .price-body {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header no-print">
+        <div class="container">
+            <div class="header-inner">
+                <a href="#" class="logo">
+                    <div class="logo-mark">AC</div>
+                    <div class="logo-text">
+                        Aluminio&Vidrio
+                        <span>Catálogo técnico</span>
+                    </div>
+                </a>
+                <nav class="nav" id="navCategorias"></nav>
+                <div class="header-actions">
+                    <button class="btn-header" id="btnTogglePrecios" title="Configurar precios">⚙️ Precios</button>
+                    <button class="btn-header accent" id="btnImprimirTop" title="Imprimir / PDF">🖨️ Imprimir</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Panel de precios (colapsable) -->
+            <div class="price-panel no-print" id="panelPrecios">
+                <div class="price-header" id="priceHeader">
+                    <span>⚙️ Configuración de Precios y Materiales</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="price-body" id="priceBody">
+                    <div class="price-field">
+                        <label>Vidrio 4mm (precio por m²)</label>
+                        <input type="number" id="precioVidrio4mm" value="450" step="10" min="0">
+                        <span class="unit">MXN / m²</span>
+                    </div>
+                    <div class="price-field">
+                        <label>Vidrio 6mm (precio por m²)</label>
+                        <input type="number" id="precioVidrio6mm" value="620" step="10" min="0">
+                        <span class="unit">MXN / m²</span>
+                    </div>
+                    <div class="price-field">
+                        <label>Vidrio Templado 8mm (precio por m²)</label>
+                        <input type="number" id="precioVidrioTemplado8mm" value="980" step="10" min="0">
+                        <span class="unit">MXN / m²</span>
+                    </div>
+                    <div class="price-field">
+                        <label>Vidrio Templado 10mm (precio por m²)</label>
+                        <input type="number" id="precioVidrioTemplado10mm" value="1250" step="10" min="0">
+                        <span class="unit">MXN / m²</span>
+                    </div>
+                    <div class="price-field">
+                        <label>Aluminio (precio por metro lineal)</label>
+                        <input type="number" id="precioAluminio" value="180" step="5" min="0">
+                        <span class="unit">MXN / metro lineal</span>
+                    </div>
+                    <div class="price-field">
+                        <label>% Herrajes e Insumos (sobre subtotal)</label>
+                        <input type="number" id="porcentajeHerrajes" value="18" step="0.5" min="0" max="100">
+                        <span class="unit">porcentaje del subtotal</span>
+                    </div>
+                    <div class="price-field">
+                        <label>Costo de Instalación (opcional)</label>
+                        <input type="number" id="costoInstalacion" value="0" step="50" min="0">
+                        <span class="unit">MXN (cargo fijo)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <!-- Columna 1: Controles -->
+                <div class="card fade-in no-print" id="cardControles">
+                    <div class="card-title">
+                        📐 Cotizador
+                        <span class="badge">medidas en mm</span>
+                    </div>
+                    <div id="productSelector" class="product-grid"></div>
+                    <div id="standardControls">
+                        <div class="control-group">
+                            <label class="control-label" for="sliderWidth">
+                                <span>Ancho</span>
+                                <span class="control-value" id="valWidth">1500 mm</span>
+                            </label>
+                            <input type="range" id="sliderWidth" class="slider" min="300" max="5000" step="10" value="1500">
+                            <div class="slider-range"><span>300 mm</span><span>5000 mm</span></div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sliderHeight">
+                                <span>Alto</span>
+                                <span class="control-value" id="valHeight">2000 mm</span>
+                            </label>
+                            <input type="range" id="sliderHeight" class="slider" min="300" max="3500" step="10" value="2000">
+                            <div class="slider-range"><span>300 mm</span><span>3500 mm</span></div>
+                        </div>
+                    </div>
+                    <div id="specialCard" class="hidden text-center" style="padding:1.5rem 0.5rem;">
+                        <div style="font-size:2.5rem;">🔧</div>
+                        <h4 style="margin:0.4rem 0;">Trabajo Personalizado</h4>
+                        <p class="text-muted">Contáctanos directamente para proyectos especiales.</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-whatsapp" id="btnCotizar">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                            Enviar por WhatsApp
+                        </button>
+                        <button class="btn-print" id="btnImprimir">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                            Imprimir / PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Columna 2: Vista previa y despiece -->
+                <div class="card fade-in" id="cardPreview">
+                    <div class="card-title">
+                        🔍 Despiece técnico
+                        <span class="badge" id="productNameBadge">Ventana corrediza</span>
+                        <span class="badge orange print-only">COTIZACIÓN</span>
+                    </div>
+                    <div class="preview-box" id="previewBox">
+                        <div id="previewContent"></div>
+                    </div>
+                    <div class="data-grid" id="dataGrid">
+                        <div class="data-item">
+                            <strong id="dataWidth">1500</strong><span>Ancho (mm)</span>
+                        </div>
+                        <div class="data-item">
+                            <strong id="dataHeight">2000</strong><span>Alto (mm)</span>
+                        </div>
+                        <div class="data-item">
+                            <strong id="dataArea">3.00</strong><span>Área (m²)</span>
+                        </div>
+                    </div>
+                    <div class="componentes-list" id="componentesList"></div>
+                    <div class="notas-box" id="notasBox"></div>
+                </div>
+
+                <!-- Columna 3: Resumen de costos -->
+                <div class="card fade-in" id="cardCostos">
+                    <div class="card-title">
+                        💰 Resumen de Costos
+                        <span class="badge green">estimado</span>
+                    </div>
+                    <div id="costSummaryContainer">
+                        <div class="cost-summary" id="costSummary"></div>
+                    </div>
+                    <div class="text-muted text-center" style="margin-top:0.5rem;">
+                        * Los precios son estimados. Sujeto a revisión final.
+                    </div>
+                    <div style="margin-top:1rem;padding:0.75rem;background:#F0FDF4;border-radius:var(--radius-sm);border:1px solid #BBF7D0;" class="print-only">
+                        <strong style="color:#065F46;">📋 Datos de la cotización</strong><br>
+                        <span style="font-size:0.7rem;color:#065F46;">Fecha: <span id="printFecha"></span> | Folio: <span id="printFolio"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        // CATÁLOGO MAESTRO AMPLIADO
+        // ============================================================
+        const CATALOGO = {
+            "ventana_corrediza_estandar": {
+                "nombre": "Ventana corrediza estándar",
+                "categoria": "ventanas",
+                "icono": "🪟",
+                "tipoVidrio": "4mm",
+                "perfiles": [
+                    { "nombre": "Riel / Jamba cabezal", "cantidad": 1, "formula": "ancho", "corte": "90°" },
+                    { "nombre": "Jambas verticales", "cantidad": 2, "formula": "alto - 26", "corte": "90°" },
+                    { "nombre": "Zoclo / Cabezal", "cantidad": 2, "formula": "(ancho - 185) / 2", "corte": "90°" }
+                ],
+                "vidrio": [
+                    { "nombre": "Vidrio fijo 4mm", "cantidad": 1, "ancho": "(ancho - 151) / 2", "alto": "alto - 125",
+                        "tipo": "4mm" },
+                    { "nombre": "Vidrio corredizo 4mm", "cantidad": 1, "ancho": "(ancho - 151) / 2",
+                    "alto": "alto - 135", "tipo": "4mm" }
+                ],
+                "notas": "🔧 Usar felpa en zoclo y cabezal para deslizamiento suave. Revisar escuadra antes de ensamblar.",
+                "porcentajeHerrajesOverride": null
+            },
+            "ventana_3_hojas_telescopica": {
+                "nombre": "Ventana 3 hojas telescópica",
+                "categoria": "ventanas",
+                "icono": "🪟",
+                "tipoVidrio": "6mm",
+                "perfiles": [
+                    { "nombre": "Riel de 3\"", "cantidad": 1, "formula": "ancho", "corte": "90°" },
+                    { "nombre": "Jamba de 3\" (cabezal)", "cantidad": 1, "formula": "ancho", "corte": "90°" },
+                    { "nombre": "Adaptador paloma", "cantidad": 1, "formula": "ancho - 65", "corte": "90°" },
+                    { "nombre": "Jambas de 3\"", "cantidad": 2, "formula": "alto - 26", "corte": "90°" },
+                    { "nombre": "Zoclo / Cabezal de 3\"", "cantidad": 3, "formula": "(ancho - 167) / 3",
+                    "corte": "90°" },
+                    { "nombre": "Cerco chapa fijo", "cantidad": 1, "formula": "alto", "corte": "90°" },
+                    { "nombre": "Cerco chapa corredizo", "cantidad": 1, "formula": "alto - 40", "corte": "90°" },
+                    { "nombre": "Traslape fijo", "cantidad": 1, "formula": "alto", "corte": "90°" },
+                    { "nombre": "Traslape corredizo", "cantidad": 3, "formula": "alto - 40", "corte": "90°" }
+                ],
+                "vidrio": [
+                    { "nombre": "Vidrio fijo 6mm", "cantidad": 1, "ancho": "(ancho - 117) / 3", "alto": "alto - 95",
+                        "tipo": "6mm" },
+                    { "nombre": "Vidrio corredizo 6mm", "cantidad": 2, "ancho": "(ancho - 117) / 3",
+                    "alto": "alto - 135", "tipo": "6mm" }
+                ],
+                "notas": "⚠️ Requiere riel de 3 servicios. El adaptador paloma debe quedar centrado. Usar rodajas de nylon.",
+                "porcentajeHerrajesOverride": 20
+            },
+            "ventanal_oxxo": {
+                "nombre": "Ventanal OXXO",
+                "categoria": "ventanales",
+                "icono": "🏪",
+                "tipoVidrio": "6mm",
+                "perfiles": [
+                    { "nombre": "Riel / Jamba c/mosquitero", "cantidad": 1, "formula": "ancho", "corte": "90°" },
+                    { "nombre": "Jambas de 3\"", "cantidad": 2, "formula": "alto - 26", "corte": "90°" },
+                    { "nombre": "Zoclo / Cabezal de 3\"", "cantidad": 8, "formula": "(ancho - 330) / 4",
+                    "corte": "90°" },
+                    { "nombre": "Cerco chapa / Traslape fijo", "cantidad": 4, "formula": "alto - 30", "corte": "90°" },
+                    { "nombre": "Cerco chapa / Traslape corredizo", "cantidad": 4, "formula": "alto - 40",
+                    "corte": "90°" }
+                ],
+                "vidrio": [
+                    { "nombre": "Vidrio fijo 6mm", "cantidad": 2, "ancho": "(ancho - 265) / 4", "alto": "alto - 125",
+                        "tipo": "6mm" },
+                    { "nombre": "Vidrio corredizo 6mm", "cantidad": 2, "ancho": "(ancho - 265) / 4",
+                    "alto": "alto - 135", "tipo": "6mm" }
+                ],
+                "notas": "🏗️ Para vanos grandes, reforzar el riel inferior. Considerar dilatación térmica en climas extremos.",
+                "porcentajeHerrajesOverride": 22
+            },
+            "puerta_batiente_estandar": {
+                "nombre": "Puerta batiente estándar",
+                "categoria": "puertas",
+                "icono": "🚪",
+                "tipoVidrio": "6mm",
+                "perfiles": [
+                    { "nombre": "Bolsa lisa cabezal", "cantidad": 1, "formula": "ancho", "corte": "90°" },
+                    { "nombre": "Batiente cabezal", "cantidad": 1, "formula": "ancho - 64", "corte": "90°" },
+                    { "nombre": "Bolsas / Batientes verticales", "cantidad": 2, "formula": "alto - 32",
+                    "corte": "90°" },
+                    { "nombre": "Cercos chapa", "cantidad": 2, "formula": "alto - 47", "corte": "90°" },
+                    { "nombre": "Zoclo / Intermedio / Cabezal", "cantidad": 3, "formula": "ancho - 181",
+                    "corte": "90°" }
+                ],
+                "vidrio": [
+                    { "nombre": "Vidrio 6mm", "cantidad": 2, "ancho": "ancho - 191", "alto": "(alto - 205) / 2",
+                        "tipo": "6mm" }
+                ],
+                "notas": "🔑 La chapa se coloca a 950mm del piso. Usar 3 bisagras para puertas de más de 2m de alto.",
+                "porcentajeHerrajesOverride": 25
+            },
+            "puerta_ligera": {
+                "nombre": "Puerta ligera",
+                "categoria": "puertas",
+                "icono": "🚪",
+                "tipoVidrio": null,
+                "perfiles": [
+                    { "nombre": "Batiente cabezal", "cantidad": 1, "formula": "ancho - 25", "corte": "90°" },
+                    { "nombre": "Batientes", "cantidad": 2, "formula": "alto", "corte": "90°" },
+                    { "nombre": "Cercos chapa", "cantidad": 2, "formula": "alto - 27", "corte": "90°" },
+                    { "nombre": "Zoclo / Intermedio", "cantidad": 2, "formula": "ancho - 139", "corte": "90°" }
+                ],
+                "vidrio": [],
+                "notas": "📌 Puerta ciega sin vidrio. Ideal para closets o áreas de servicio. Usar panel de aluminio compuesto.",
+                "porcentajeHerrajesOverride": 15
+            },
+            "puerta_bano": {
+                "nombre": "Puerta de baño",
+                "categoria": "puertas",
+                "icono": "🚿",
+                "tipoVidrio": "4mm",
+                "perfiles": [
+                    { "nombre": "Silla cabezal", "cantidad": 1, "formula": "ancho - 30", "corte": "90°" },
+                    { "nombre": "Silla", "cantidad": 2, "formula": "alto", "corte": "90°" },
+                    { "nombre": "Marco semilujo ancho", "cantidad": 2, "formula": "ancho - 42", "corte": "90°" },
+                    { "nombre": "Marco semilujo alto", "cantidad": 2, "formula": "alto - 30", "corte": "90°" }
+                ],
+                "vidrio": [
+                    { "nombre": "Plástico/Vidrio 4mm", "cantidad": 1, "ancho": "ancho - 112", "alto": "alto - 100",
+                        "tipo": "4mm" }
+                ],
+                "notas": "🚿 Asegurar ventilación inferior. Se puede usar plástico corrugado o vidrio esmerilado.",
+                "porcentajeHerrajesOverride": 18
+            },
+            "cancel_plastico_bano": {
+                "nombre": "Cancel de baño plástico",
+                "categoria": "canceles",
+                "icono": "🚿",
+                "tipoVidrio": null,
+                "perfiles": [
+                    { "nombre": "Riel / Guía", "cantidad": 1, "formula": "ancho", "corte": "90°" },
+                    { "nombre": "Jambas", "cantidad": 2, "formula": "alto - 30", "corte": "90°" },
+                    { "nombre": "Horizontales", "cantidad": 4, "formula": "(ancho + 30) / 2", "corte": "90°" },
+                    { "nombre": "Marcos económicos", "cantidad": 4, "formula": "alto - 50", "corte": "90°" }
+                ],
+                "vidrio": [
+                    { "nombre": "Hojas plástico", "cantidad": 2, "ancho": "(ancho - 30) / 2", "alto": "alto - 80",
+                        "tipo": null }
+                ],
+                "notas": "🛁 El plástico se corta con navaja. Dejar 3mm de holgura por lado para dilatación.",
+                "porcentajeHerrajesOverride": 12
+            },
+            "cancel_templado_estandar": {
+                "nombre": "Cancel templado estándar",
+                "categoria": "canceles",
+                "icono": "🪞",
+                "tipoVidrio": "templado8mm",
+                "perfiles": [
+                    { "nombre": "Riel inferior de piso", "cantidad": 1, "formula": "ancho", "corte": "90°" },
+                    { "nombre": "Jamba guía superior", "cantidad": 1, "formula": "ancho", "corte": "90°" },
+                    { "nombre": "Jambas verticales", "cantidad": 2, "formula": "alto - 20", "corte": "90°" },
+                    { "nombre": "Perfil tapajunta vertical", "cantidad": 1, "formula": "alto - 30", "corte": "90°" }
+                ],
+                "vidrio": [
+                    { "nombre": "Hoja fija templada 8mm", "cantidad": 1, "ancho": "(ancho - 40) / 2",
+                        "alto": "alto - 25", "tipo": "templado8mm", "perforaciones": [
+                            { "descripcion": "Perforación para corona superior",
+                                "distanciaBordeSuperior": 60, "distanciaBordeLateral": 40, "diametro": 12 },
+                            { "descripcion": "Perforación para corona inferior",
+                                "distanciaBordeSuperior": 60, "distanciaBordeLateral": 40, "diametro": 12,
+                                "desdeAbajo": true }
+                        ] },
+                    { "nombre": "Hoja corrediza templada 8mm", "cantidad": 1, "ancho": "(ancho - 40) / 2",
+                        "alto": "alto - 35", "tipo": "templado8mm", "perforaciones": [
+                            { "descripcion": "Perforación para corona superior",
+                                "distanciaBordeSuperior": 60, "distanciaBordeLateral": 40, "diametro": 12 },
+                            { "descripcion": "Perforación para corona inferior",
+                                "distanciaBordeSuperior": 60, "distanciaBordeLateral": 40, "diametro": 12,
+                                "desdeAbajo": true },
+                            { "descripcion": "Perforación para jaladera", "distanciaBordeSuperior": null,
+                                "distanciaBordeLateral": null, "diametro": 25, "centroHorizontal": true,
+                                "alturaJaladera": 1000 }
+                        ] }
+                ],
+                "notas": "⚠️ VIDRIO TEMPLADO: Las perforaciones deben realizarse ANTES del templado. Diámetro estándar de corona: 12mm. La jaladera se centra horizontalmente a ~1000mm de altura. No se puede cortar ni perforar después del templado.",
+                "porcentajeHerrajesOverride": 28,
+                "esTemplado": true
+            },
+            "ventana_abatible_estandar": {
+                "nombre": "Ventana abatible estándar",
+                "categoria": "ventanas",
+                "icono": "🪟",
+                "tipoVidrio": "6mm",
+                "perfiles": [
+                    { "nombre": "Marco ventana (ancho)", "cantidad": 2, "formula": "ancho", "corte": "45°" },
+                    { "nombre": "Marco ventana (alto)", "cantidad": 2, "formula": "alto", "corte": "45°" },
+                    { "nombre": "Hoja ventana (ancho)", "cantidad": 2, "formula": "ancho - 42", "corte": "45°" },
+                    { "nombre": "Hoja ventana (alto)", "cantidad": 2, "formula": "alto - 42", "corte": "45°" },
+                    { "nombre": "Junquillo redondo (ancho)", "cantidad": 2, "formula": "ancho - 114", "corte": "45°" },
+                    { "nombre": "Junquillo redondo (alto)", "cantidad": 2, "formula": "alto - 114", "corte": "45°" }
+                ],
+                "vidrio": [
+                    { "nombre": "Vidrio 6mm", "cantidad": 1, "ancho": "ancho - 127", "alto": "alto - 127", "tipo": "6mm" }
+                ],
+                "notas": "📐 Cortes a 45° con ingletadora. Ensamblar junquillo en la hoja antes de cortar. Usar escuadras de alineación.",
+                "porcentajeHerrajesOverride": 20
+            },
+            "ventana_fija_1_1_2": {
+                "nombre": "Ventana fija 1 1/2",
+                "categoria": "ventanas",
+                "icono": "🪟",
+                "tipoVidrio": "4mm",
+                "perfiles": [
+                    { "nombre": "Bolsa / Escalonado cabezal", "cantidad": 1, "formula": "ancho", "corte": "90°" },
+                    { "nombre": "Bolsas verticales", "cantidad": 2, "formula": "alto - 40", "corte": "90°" }
+                ],
+                "vidrio": [
+                    { "nombre": "Vidrio 4mm", "cantidad": 1, "ancho": "ancho - 48", "alto": "alto - 42", "tipo": "4mm" }
+                ],
+                "notas": "🪟 Ventana fija sin apertura. Sellar perimetralmente con silicón neutro.",
+                "porcentajeHerrajesOverride": 10
+            }
+        };
+
+        // ============================================================
+        // ESTADO GLOBAL
+        // ============================================================
+        let currentProduct = 'ventana_corrediza_estandar';
+        let currentAncho = 1500;
+        let currentAlto = 2000;
+        let preciosCollapsed = false;
+
+        // ============================================================
+        // FUNCIONES AUXILIARES
+        // ============================================================
+        function evaluarFormula(formula, ancho, alto) {
+            try {
+                const expr = formula.replace(/ancho/g, `(${ancho})`).replace(/alto/g, `(${alto})`);
+                const result = Function('"use strict"; return (' + expr + ')')();
+                return Math.round(result * 100) / 100;
+            } catch (e) {
+                console.warn('Error evaluando fórmula:', formula, e);
+                return 0;
+            }
+        }
+
+        function calcularComponentes(producto, ancho, alto) {
+            const data = CATALOGO[producto];
+            if (!data) return { perfiles: [], vidrios: [] };
+            const perfiles = data.perfiles.map(p => ({ ...p, medida: evaluarFormula(p.formula, ancho, alto) }));
+            const vidrios = (data.vidrio || []).map(v => ({
+                ...v,
+                medidaAncho: evaluarFormula(v.ancho, ancho, alto),
+                medidaAlto: evaluarFormula(v.alto, ancho, alto),
+                perforaciones: v.perforaciones ? v.perforaciones.map(perf => ({ ...perf })) : undefined
+            }));
+            return { perfiles, vidrios };
+        }
+
+        function getPrecioVidrio(tipo) {
+            const map = {
+                '4mm': parseFloat(document.getElementById('precioVidrio4mm')?.value || 450),
+                '6mm': parseFloat(document.getElementById('precioVidrio6mm')?.value || 620),
+                'templado8mm': parseFloat(document.getElementById('precioVidrioTemplado8mm')?.value || 980),
+                'templado10mm': parseFloat(document.getElementById('precioVidrioTemplado10mm')?.value || 1250),
+            };
+            return map[tipo] || 0;
+        }
+
+        function getPrecioAluminio() {
+            return parseFloat(document.getElementById('precioAluminio')?.value || 180);
+        }
+
+        function getPorcentajeHerrajes(producto) {
+            const data = CATALOGO[producto];
+            if (data && data.porcentajeHerrajesOverride !== null) {
+                return data.porcentajeHerrajesOverride;
+            }
+            return parseFloat(document.getElementById('porcentajeHerrajes')?.value || 18);
+        }
+
+        function getCostoInstalacion() {
+            return parseFloat(document.getElementById('costoInstalacion')?.value || 0);
+        }
+
+        function calcularCostos(producto, ancho, alto) {
+            const { perfiles, vidrios } = calcularComponentes(producto, ancho, alto);
+            const precioAl = getPrecioAluminio();
+            let costoAluminio = 0;
+            perfiles.forEach(p => {
+                const metros = (p.medida * p.cantidad) / 1000;
+                costoAluminio += metros * precioAl;
+            });
+            let costoVidrio = 0;
+            vidrios.forEach(v => {
+                if (v.tipo) {
+                    const areaM2 = (v.medidaAncho * v.medidaAlto * v.cantidad) / 1000000;
+                    costoVidrio += areaM2 * getPrecioVidrio(v.tipo);
+                }
+            });
+            const subtotal = costoAluminio + costoVidrio;
+            const porcHerrajes = getPorcentajeHerrajes(producto);
+            const costoHerrajes = subtotal * (porcHerrajes / 100);
+            const instalacion = getCostoInstalacion();
+            const total = subtotal + costoHerrajes + instalacion;
+
+            return {
+                costoAluminio: Math.round(costoAluminio * 100) / 100,
+                costoVidrio: Math.round(costoVidrio * 100) / 100,
+                subtotal: Math.round(subtotal * 100) / 100,
+                porcentajeHerrajes: porcHerrajes,
+                costoHerrajes: Math.round(costoHerrajes * 100) / 100,
+                costoInstalacion: instalacion,
+                total: Math.round(total * 100) / 100,
+                metrosAluminio: Math.round((perfiles.reduce((sum, p) => sum + (p.medida * p.cantidad) / 1000,
+                0)) * 100) / 100,
+                areaVidrio: Math.round((vidrios.filter(v => v.tipo).reduce((sum, v) => sum + (v
+                    .medidaAncho * v.medidaAlto * v.cantidad) / 1000000, 0)) * 100) / 100,
+            };
+        }
+
+        // ============================================================
+        // GENERADOR DE SVG MEJORADO
+        // ============================================================
+        function generarSVG(productKey, ancho, alto) {
+            const data = CATALOGO[productKey];
+            if (!data) return '<div class="text-muted text-center">Producto no encontrado</div>';
+
+            const maxW = 280;
+            const maxH = 220;
+            const aspect = ancho / alto;
+            let w = maxW;
+            let h = maxH;
+            if (aspect > 1) { h = maxW / aspect; } else { w = maxH * aspect; }
+            w = Math.min(Math.max(w, 60), maxW);
+            h = Math.min(Math.max(h, 60), maxH);
+
+            const color = '#0077B6';
+            const colorAccent = '#FFB703';
+            const light = 'rgba(0,119,182,0.07)';
+            const cat = data.categoria;
+            let content = '';
+
+            // Marco base
+            content +=
+                `<rect x="3" y="3" width="${w-6}" height="${h-6}" fill="${light}" stroke="${color}" stroke-width="2.5" rx="3"/>`;
+
+            if (data.esTemplado) {
+                // --- CROQUIS ESPECIAL PARA CANCEL TEMPLADO ---
+                const mitadAncho = w / 2;
+                // Hoja fija (izquierda)
+                content +=
+                    `<rect x="8" y="8" width="${mitadAncho-14}" height="${h-16}" fill="rgba(0,180,216,0.12)" stroke="${color}" stroke-width="1.8" rx="2"/>`;
+                content +=
+                    `<text x="${8+(mitadAncho-14)/2}" y="${h/2-4}" text-anchor="middle" font-size="9" fill="${color}" opacity="0.8" font-family="Inter,sans-serif" font-weight="600">FIJO</text>`;
+                // Hoja corrediza (derecha) - ligeramente desplazada
+                content +=
+                    `<rect x="${mitadAncho+4}" y="11" width="${mitadAncho-14}" height="${h-19}" fill="rgba(255,183,3,0.12)" stroke="${colorAccent}" stroke-width="1.8" rx="2" stroke-dasharray="4 2"/>`;
+                content +=
+                    `<text x="${mitadAncho+4+(mitadAncho-14)/2}" y="${h/2-4}" text-anchor="middle" font-size="8" fill="${colorAccent}" opacity="0.9" font-family="Inter,sans-serif" font-weight="600">CORREDIZO</text>`;
+
+                // Perforaciones en hoja fija
+                const perfFija = [
+                    { x: 8 + 18, y: 8 + 22, d: 8, label: '⌀12' },
+                    { x: 8 + 18, y: h - 8 - 22, d: 8, label: '⌀12' },
+                ];
+                perfFija.forEach(p => {
+                    content +=
+                        `<circle cx="${p.x}" cy="${p.y}" r="${p.d/2}" fill="none" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="2 1"/>`;
+                    content +=
+                        `<circle cx="${p.x}" cy="${p.y}" r="1.5" fill="#EF4444"/>`;
+                    content +=
+                        `<text x="${p.x}" y="${p.y-7}" text-anchor="middle" font-size="5" fill="#EF4444" font-family="Inter,sans-serif" font-weight="700">${p.label}</text>`;
+                });
+
+                // Perforaciones en hoja corrediza
+                const perfCorr = [
+                    { x: mitadAncho + 4 + 18, y: 11 + 22, d: 8, label: '⌀12' },
+                    { x: mitadAncho + 4 + 18, y: h - 11 - 22, d: 8, label: '⌀12' },
+                    { x: mitadAncho + 4 + (mitadAncho - 14) / 2, y: h * 0.55, d: 10, label: '⌀25' },
+                ];
+                perfCorr.forEach(p => {
+                    content +=
+                        `<circle cx="${p.x}" cy="${p.y}" r="${p.d/2}" fill="none" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="2 1"/>`;
+                    content +=
+                        `<circle cx="${p.x}" cy="${p.y}" r="1.5" fill="#EF4444"/>`;
+                    content +=
+                        `<text x="${p.x}" y="${p.y-7}" text-anchor="middle" font-size="5" fill="#EF4444" font-family="Inter,sans-serif" font-weight="700">${p.label}</text>`;
+                });
+
+                // Líneas de cota para perforaciones
+                content +=
+                    `<line x1="3" y1="8+22" x2="8+18" y2="8+22" stroke="#EF4444" stroke-width="0.6" stroke-dasharray="3 2" opacity="0.6"/>`;
+                content +=
+                    `<text x="5" y="8+22-4" font-size="5" fill="#EF4444" font-family="Inter,sans-serif" opacity="0.7">~60mm</text>`;
+
+                // Flecha de deslizamiento
+                content +=
+                    `<line x1="${mitadAncho+4+5}" y1="${h/2}" x2="${mitadAncho+4+(mitadAncho-14)-5}" y2="${h/2}" stroke="${colorAccent}" stroke-width="1" marker-end="url(#arrowhead)" opacity="0.6"/>`;
+                content += `<defs><marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+                <polygon points="0 0, 6 2, 0 4" fill="${colorAccent}" opacity="0.6"/></marker></defs>`;
+
+                content +=
+                    `<text x="${w-10}" y="10" text-anchor="end" font-size="5" fill="#EF4444" font-family="Inter,sans-serif" font-weight="700">⌀ = diámetro perforación</text>`;
+            } else if (cat === 'ventanas' || cat === 'ventanales') {
+                const vidrios = data.vidrio || [];
+                const numHojas = vidrios.length || 2;
+                if (numHojas >= 2) {
+                    for (let i = 1; i < numHojas; i++) {
+                        const x = (i / numHojas) * w;
+                        content +=
+                            `<line x1="${x}" y1="4" x2="${x}" y2="${h-4}" stroke="${color}" stroke-width="1.2" opacity="0.35" stroke-dasharray="5 3"/>`;
+                    }
+                }
+                content +=
+                    `<circle cx="${w-16}" cy="${h/2}" r="4" fill="${color}" opacity="0.7"/><circle cx="16" cy="${h/2}" r="4" fill="${color}" opacity="0.7"/>`;
+                // Flechas de dirección
+                content +=
+                    `<text x="${w/2}" y="${h-8}" text-anchor="middle" font-size="6" fill="${color}" opacity="0.5">↔ corredizo</text>`;
+            } else if (cat === 'puertas') {
+                content +=
+                    `<rect x="${w*0.1}" y="${h*0.08}" width="${w*0.8}" height="${h*0.84}" fill="none" stroke="${color}" stroke-width="1.2" rx="2" opacity="0.35"/>`;
+                content +=
+                    `<circle cx="${w-18}" cy="${h/2}" r="5" fill="${color}" opacity="0.6"/><line x1="${w-18}" y1="${h/2}" x2="${w-18}" y2="${h/2+20}" stroke="${color}" stroke-width="1.5" opacity="0.4"/>`;
+                content +=
+                    `<text x="${w/2}" y="${h-8}" text-anchor="middle" font-size="6" fill="${color}" opacity="0.5">abatible →</text>`;
+            } else if (cat === 'canceles' && !data.esTemplado) {
+                content +=
+                    `<line x1="${w/2}" y1="4" x2="${w/2}" y2="${h-4}" stroke="${color}" stroke-width="1.8" opacity="0.4" stroke-dasharray="6 3"/>`;
+                content +=
+                    `<circle cx="${w-14}" cy="${h/2}" r="3.5" fill="${color}" opacity="0.7"/><circle cx="14" cy="${h/2}" r="3.5" fill="${color}" opacity="0.7"/>`;
+                content +=
+                    `<rect x="${w/2+5}" y="7" width="${w/2-12}" height="${h-14}" fill="none" stroke="${color}" stroke-width="0.8" opacity="0.25" rx="2"/>`;
+                content +=
+                    `<rect x="5" y="7" width="${w/2-12}" height="${h-14}" fill="none" stroke="${color}" stroke-width="0.8" opacity="0.25" rx="2"/>`;
+            }
+
+            // Cota de ancho
+            content +=
+                `<line x1="8" y1="${h-2}" x2="${w-8}" y2="${h-2}" stroke="${color}" stroke-width="0.8" opacity="0.5"/><line x1="8" y1="${h-5}" x2="8" y2="${h+1}" stroke="${color}" stroke-width="0.8" opacity="0.5"/><line x1="${w-8}" y1="${h-5}" x2="${w-8}" y2="${h+1}" stroke="${color}" stroke-width="0.8" opacity="0.5"/>`;
+            content +=
+                `<text x="${w/2}" y="${h+3}" text-anchor="middle" font-size="7" fill="${color}" opacity="0.6" font-family="Inter,sans-serif" font-weight="500">${ancho} mm</text>`;
+
+            return `<svg width="${w}" height="${h+14}" viewBox="0 0 ${w} ${h+14}" role="img" aria-label="Croquis de ${data.nombre}">${content}</svg>`;
+        }
+
+        // ============================================================
+        // RENDER PRINCIPAL
+        // ============================================================
+        function renderNavegacion() {
+            const nav = document.getElementById('navCategorias');
+            const categorias = [...new Set(Object.values(CATALOGO).map(p => p.categoria))];
+            nav.innerHTML = categorias.map(cat =>
+                `<button class="nav-btn" data-categoria="${cat}">${cat.charAt(0).toUpperCase() + cat.slice(1)}</button>`
+            ).join('');
+            nav.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const cat = btn.dataset.categoria;
+                    const first = Object.keys(CATALOGO).find(k => CATALOGO[k].categoria === cat);
+                    if (first) { currentProduct = first;
+                        renderProductos();
+                        renderTodo(); }
+                    nav.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+            const firstCat = nav.querySelector('.nav-btn');
+            if (firstCat) firstCat.classList.add('active');
+        }
+
+        function renderProductos() {
+            const container = document.getElementById('productSelector');
+            const entries = Object.entries(CATALOGO);
+            container.innerHTML = entries.map(([key, val]) =>
+                `<button class="product-btn ${key === currentProduct ? 'active' : ''}" data-key="${key}">
+                ${val.icono || '📐'} ${val.nombre.split(' ').slice(0,2).join(' ')}
+                <span class="sub">${val.categoria}${val.esTemplado ? ' · templado' : ''}</span>
+              </button>`
+            ).join('');
+            container.querySelectorAll('.product-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentProduct = btn.dataset.key;
+                    renderProductos();
+                    renderTodo();
+                });
+            });
+        }
+
+        function renderTodo() {
+            renderPreview();
+            renderCostos();
+        }
+
+        function renderPreview() {
+            const data = CATALOGO[currentProduct];
+            if (!data) return;
+            const ancho = currentAncho;
+            const alto = currentAlto;
+            const area = (ancho * alto / 1000000).toFixed(2);
+
+            document.getElementById('productNameBadge').textContent = data.nombre;
+            document.getElementById('dataWidth').textContent = ancho;
+            document.getElementById('dataHeight').textContent = alto;
+            document.getElementById('dataArea').textContent = area;
+            document.getElementById('valWidth').textContent = ancho + ' mm';
+            document.getElementById('valHeight').textContent = alto + ' mm';
+            document.getElementById('previewContent').innerHTML = generarSVG(currentProduct, ancho, alto);
+
+            const { perfiles, vidrios } = calcularComponentes(currentProduct, ancho, alto);
+            const list = document.getElementById('componentesList');
+            let html =
+                '<div style="font-size:0.7rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;padding:0 0.4rem 0.4rem;border-bottom:1px solid var(--border);">🔩 Perfiles</div>';
+            perfiles.forEach(p => {
+                html += `<div class="componente-item">
+                <span class="cantidad">${p.cantidad}x</span>
+                <span class="nombre">${p.nombre}</span>
+                <span class="tag">${p.corte}</span>
+                <span class="medida">${p.medida} mm</span>
+              </div>`;
+            });
+            if (vidrios.length > 0) {
+                html +=
+                    `<div style="font-size:0.7rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;padding:0.6rem 0.4rem 0.4rem;border-top:1px solid var(--border);">🪞 Vidrios</div>`;
+                vidrios.forEach(v => {
+                    const medida = v.medidaAncho !== undefined ?
+                        `${v.medidaAncho} × ${v.medidaAlto} mm` : `${v.medidaAlto || ''} mm`;
+                    let extraInfo = '';
+                    if (v.perforaciones && v.perforaciones.length > 0) {
+                        extraInfo =
+                            ` <span style="font-size:0.55rem;color:#EF4444;">(${v.perforaciones.length} perf. ⌀${v.perforaciones.map(p=>p.diametro).join(',⌀')}mm)</span>`;
+                    }
+                    html += `<div class="componente-item">
+                <span class="cantidad">${v.cantidad}x</span>
+                <span class="nombre">${v.nombre}${extraInfo}</span>
+                <span class="tag">${v.tipo || 'vidrio'}</span>
+                <span class="medida">${medida}</span>
+              </div>`;
+                    // Mostrar detalle de perforaciones si es templado
+                    if (v.perforaciones && v.perforaciones.length > 0) {
+                        v.perforaciones.forEach(perf => {
+                            html += `<div class="componente-item" style="padding-left:1.5rem;font-size:0.65rem;background:#FFF5F5;">
+                    <span class="cantidad" style="color:#EF4444;">•</span>
+                    <span class="nombre" style="font-size:0.65rem;">${perf.descripcion}</span>
+                    <span class="tag" style="background:#FEE2E2;color:#991B1B;">⌀${perf.diametro}mm</span>
+                    <span class="medida" style="font-size:0.6rem;">a ${perf.distanciaBordeSuperior || '~'}mm del borde</span>
+                  </div>`;
+                        });
+                    }
+                });
+            }
+            list.innerHTML = html;
+
+            // Notas
+            const notasBox = document.getElementById('notasBox');
+            if (data.notas) {
+                notasBox.innerHTML = `<strong>📌 Notas y recomendaciones:</strong> ${data.notas}`;
+                notasBox.classList.remove('hidden');
+            } else {
+                notasBox.classList.add('hidden');
+            }
+
+            // Fecha y folio para impresión
+            const ahora = new Date();
+            document.getElementById('printFecha').textContent = ahora.toLocaleDateString('es-MX', { day: 'numeric',
+                month: 'long', year: 'numeric' });
+            document.getElementById('printFolio').textContent = 'COT-' + ahora.getFullYear() + '-' + Math.floor(Math
+            .random() * 9000 + 1000);
+        }
+
+        function renderCostos() {
+            const costos = calcularCostos(currentProduct, currentAncho, currentAlto);
+            const container = document.getElementById('costSummary');
+            container.innerHTML = `
+            <div class="cost-row"><span class="label">📏 Aluminio (${costos.metrosAluminio.toFixed(2)} m lineales)</span><span class="value">$${costos.costoAluminio.toFixed(2)}</span></div>
+            <div class="cost-row"><span class="label">🪞 Vidrio (${costos.areaVidrio.toFixed(3)} m²)</span><span class="value">$${costos.costoVidrio.toFixed(2)}</span></div>
+            <div class="cost-row"><span class="label">📦 Subtotal materiales</span><span class="value">$${costos.subtotal.toFixed(2)}</span></div>
+            <div class="cost-row"><span class="label">🔧 Herrajes e insumos (${costos.porcentajeHerrajes}%)</span><span class="value">$${costos.costoHerrajes.toFixed(2)}</span></div>
+            ${costos.costoInstalacion > 0 ? `<div class="cost-row"><span class="label">🛠️ Instalación</span><span class="value">$${costos.costoInstalacion.toFixed(2)}</span></div>` : ''}
+            <div class="cost-row total"><span class="label">💰 TOTAL ESTIMADO</span><span class="value">$${costos.total.toFixed(2)} MXN</span></div>
+          `;
+        }
+
+        // ============================================================
+        // COTIZAR WHATSAPP
+        // ============================================================
+        function cotizarWhatsApp() {
+            const data = CATALOGO[currentProduct];
+            const nombre = data.nombre;
+            const ancho = currentAncho;
+            const alto = currentAlto;
+            const area = (ancho * alto / 1000000).toFixed(2);
+            const { perfiles, vidrios } = calcularComponentes(currentProduct, ancho, alto);
+            const costos = calcularCostos(currentProduct, ancho, alto);
+
+            let detalle = '';
+            perfiles.forEach(p => { detalle +=
+                    `• ${p.cantidad}x ${p.nombre}: ${p.medida} mm (corte ${p.corte})\n`; });
+            vidrios.forEach(v => {
+                const medida = v.medidaAncho !== undefined ?
+                    `${v.medidaAncho} x ${v.medidaAlto} mm` : `${v.medidaAlto || ''} mm`;
+                detalle += `• ${v.cantidad}x ${v.nombre}: ${medida}\n`;
+                if (v.perforaciones) {
+                    v.perforaciones.forEach(perf => {
+                        detalle +=
+                            `   ↳ ${perf.descripcion}: ⌀${perf.diametro}mm a ~${perf.distanciaBordeSuperior || 'centro'} del borde\n`;
+                    });
+                }
+            });
+
+            const mensaje =
+                `¡Hola! Cotización desde Aluminio&Vidrio:
+
+        📋 *Producto:* ${nombre}${data.esTemplado ? ' (VIDRIO TEMPLADO)' : ''}
+        📐 *Medidas:* ${ancho} mm (ancho) × ${alto} mm (alto) | Área: ${area} m²
+
+        📦 *Despiece técnico:*
+        ${detalle}
+        💰 *Resumen de costos:*
+        • Aluminio: $${costos.costoAluminio.toFixed(2)}
+        • Vidrio: $${costos.costoVidrio.toFixed(2)}
+        • Herrajes e insumos (${costos.porcentajeHerrajes}%): $${costos.costoHerrajes.toFixed(2)}
+        ${costos.costoInstalacion > 0 ? `• Instalación: $${costos.costoInstalacion.toFixed(2)}\n` : ''}
+        🏷️ *TOTAL ESTIMADO: $${costos.total.toFixed(2)} MXN*
+
+        ${data.notas ? '📌 *Notas:* ' + data.notas.split('.')[0] + '.' : ''}
+
+        ¿Me podrían confirmar precios y disponibilidad? ¡Gracias!`;
+
+            const url = `https://wa.me/523320827128?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+            mostrarToast('📤 Abriendo WhatsApp con cotización...');
+        }
+
+        // ============================================================
+        // IMPRIMIR / PDF
+        // ============================================================
+        function imprimirPDF() {
+            mostrarToast('🖨️ Preparando impresión / PDF...');
+            setTimeout(() => window.print(), 400);
+        }
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function mostrarToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // ============================================================
+        // INICIALIZACIÓN
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNavegacion();
+            renderProductos();
+            renderTodo();
+
+            // Sliders
+            const sliderW = document.getElementById('sliderWidth');
+            const sliderH = document.getElementById('sliderHeight');
+            sliderW.addEventListener('input', () => { currentAncho = parseInt(sliderW.value);
+                renderTodo(); });
+            sliderH.addEventListener('input', () => { currentAlto = parseInt(sliderH.value);
+                renderTodo(); });
+
+            // Botones
+            document.getElementById('btnCotizar').addEventListener('click', cotizarWhatsApp);
+            document.getElementById('btnImprimir').addEventListener('click', imprimirPDF);
+            document.getElementById('btnImprimirTop').addEventListener('click', imprimirPDF);
+
+            // Panel de precios colapsable
+            const panelPrecios = document.getElementById('panelPrecios');
+            const priceHeader = document.getElementById('priceHeader');
+            priceHeader.addEventListener('click', () => {
+                preciosCollapsed = !preciosCollapsed;
+                if (preciosCollapsed) {
+                    panelPrecios.classList.add('collapsed');
+                } else {
+                    panelPrecios.classList.remove('collapsed');
+                }
+            });
+            document.getElementById('btnTogglePrecios').addEventListener('click', () => {
+                preciosCollapsed = !preciosCollapsed;
+                if (preciosCollapsed) {
+                    panelPrecios.classList.add('collapsed');
+                } else {
+                    panelPrecios.classList.remove('collapsed');
+                }
+                panelPrecios.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+
+            // Actualizar costos cuando cambian los precios
+            const priceInputs = document.querySelectorAll('#priceBody input');
+            priceInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    renderCostos();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
