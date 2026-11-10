@@ -26,7 +26,7 @@
             border-radius: 24px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             width: 100%;
-            max-width: 440px;
+            max-width: 480px;
             padding: 40px 32px;
             position: relative;
             overflow: hidden;
@@ -34,7 +34,7 @@
 
         .logo-header {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .logo-header h1 {
@@ -60,7 +60,7 @@
             background: #f1f5f9;
             padding: 6px;
             border-radius: 14px;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .tab-btn {
@@ -97,29 +97,29 @@
         }
 
         .input-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .input-group label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: #334155;
             margin-bottom: 6px;
         }
 
-        .input-group input {
+        .input-group input, .input-group select {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 14px;
             border: 2px solid #e2e8f0;
             border-radius: 12px;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             transition: border-color 0.2s, box-shadow 0.2s;
             outline: none;
             background: #f8fafc;
         }
 
-        .input-group input:focus {
+        .input-group input:focus, .input-group select:focus {
             border-color: #f97316;
             box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
             background: #ffffff;
@@ -141,15 +141,22 @@
             display: block;
         }
 
+        .role-hint {
+            font-size: 0.72rem;
+            color: #64748b;
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
         .btn-submit {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             border: none;
             border-radius: 12px;
             background: linear-gradient(135deg, #f97316, #ea580c);
             color: white;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.98rem;
             cursor: pointer;
             transition: transform 0.15s, box-shadow 0.2s;
             margin-top: 8px;
@@ -171,6 +178,30 @@
 
         .btn-logout:hover {
             box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+        }
+
+        .demo-accounts {
+            margin-top: 16px;
+            padding: 10px 12px;
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            color: #475569;
+        }
+
+        .demo-accounts strong {
+            color: #1e293b;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .demo-accounts span {
+            display: inline-block;
+            margin-right: 8px;
+            cursor: pointer;
+            color: #0077b6;
+            text-decoration: underline;
         }
 
         .message-box {
@@ -204,7 +235,7 @@
 
         .footer-note {
             text-align: center;
-            margin-top: 24px;
+            margin-top: 20px;
             font-size: 0.75rem;
             color: #94a3b8;
             line-height: 1.5;
@@ -220,7 +251,6 @@
             margin-bottom: 8px;
         }
 
-        /* Spinner de redirección */
         .redirect-overlay {
             position: fixed;
             inset: 0;
@@ -269,7 +299,7 @@
         <div class="logo-header">
             <div class="tech-icon">⚙️</div>
             <h1>Aluminio <span>&</span> Vidrio</h1>
-            <p>Sistema de Cotización Técnica</p>
+            <p>Plataforma Multi-tenant con Control de Roles RBAC</p>
         </div>
 
         <!-- Pestañas -->
@@ -292,20 +322,39 @@
                     <label for="loginPassword">Contraseña</label>
                     <input type="password" id="loginPassword" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn-submit">Acceder al Cotizador</button>
+                <button type="submit" class="btn-submit">Acceder al Sistema</button>
             </form>
+
+            <div class="demo-accounts">
+                <strong>Cuentas demo (RBAC):</strong>
+                <span onclick="fillDemo('admin@plascencia.com', 'admin123')">🔑 Administrador</span>
+                <span onclick="fillDemo('vendedor@plascencia.com', 'vendedor123')">💼 Vendedor</span>
+                <span onclick="fillDemo('operario@plascencia.com', 'operario123')">🔧 Operario</span>
+            </div>
         </div>
 
         <!-- Formulario Registro -->
         <div id="panelRegister" class="form-panel">
             <form id="formRegister" onsubmit="handleRegister(event)">
                 <div class="input-group">
-                    <label for="regName">Nombre Completo</label>
+                    <label for="regTenant">Nombre de tu Taller / Vidriería</label>
+                    <input type="text" id="regTenant" placeholder="Vidrios y Aluminios del Centro" required>
+                </div>
+                <div class="input-group">
+                    <label for="regName">Nombre del Usuario</label>
                     <input type="text" id="regName" placeholder="Juan Pérez" required>
                 </div>
                 <div class="input-group">
                     <label for="regEmail">Correo Electrónico</label>
                     <input type="email" id="regEmail" placeholder="ejemplo@correo.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="regRole">Rol de Acceso (RBAC)</label>
+                    <select id="regRole" required>
+                        <option value="Administrador">Administrador (Costos globales, finanzas)</option>
+                        <option value="Vendedor" selected>Vendedor (Cotizaciones rápidas y despiece)</option>
+                        <option value="Operario">Operario (Hojas de corte y planos de taller)</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label for="regPassword">Contraseña (mín. 6 caracteres)</label>
@@ -316,18 +365,18 @@
                     <input type="password" id="regConfirm" placeholder="••••••••" required>
                     <span class="error-msg" id="confirmError">Las contraseñas no coinciden</span>
                 </div>
-                <button type="submit" class="btn-submit">Crear Cuenta</button>
+                <button type="submit" class="btn-submit">Crear Cuenta y Taller</button>
             </form>
         </div>
 
-        <!-- Botón de cerrar sesión (solo si hay sesión activa) -->
+        <!-- Botón de cerrar sesión -->
         <button id="logoutBtn" class="btn-submit btn-logout" style="display: none;" onclick="cerrarSesion()">
             Cerrar Sesión Activa
         </button>
 
         <div class="footer-note">
-            <strong>Demo segura</strong> · Los datos se guardan localmente en tu navegador.<br>
-            Al continuar aceptas los términos del sistema de cotización.
+            <strong>Arquitectura Multi-tenant & RBAC</strong> · Datos y catálogos aislados.<br>
+            Backend con FastAPI / Supabase & PostgreSQL.
         </div>
     </div>
 
@@ -335,18 +384,20 @@
     <div class="redirect-overlay" id="redirectOverlay">
         <div class="spinner"></div>
         <p>Acceso concedido</p>
-        <small>Redirigiendo al cotizador...</small>
+        <small id="redirectSubtext">Redirigiendo al cotizador...</small>
     </div>
 
     <script>
-        // ============================================
-        // CONFIGURACIÓN - URL DEL COTIZADOR
-        // ============================================
-        const COTIZADOR_URL = "https://0ariel02.github.io/Aluminio-vidrio-Aluminio-Vidrio-CAT-LOGO-T-CNICO/";
+        const API_URL = window.location.origin.includes('8000') || window.location.port === '8000'
+            ? window.location.origin
+            : '';
+        const COTIZADOR_URL = "index.html";
 
-        // ============================================
-        // UTILIDADES
-        // ============================================
+        function fillDemo(email, pass) {
+            document.getElementById('loginEmail').value = email;
+            document.getElementById('loginPassword').value = pass;
+        }
+
         function showMessage(text, type = 'error') {
             const box = document.getElementById('globalMessage');
             box.textContent = text;
@@ -378,41 +429,24 @@
             document.getElementById('globalMessage').className = 'message-box';
         }
 
-        // ============================================
-        // REDIRECCIÓN AL COTIZADOR
-        // ============================================
-        function redirigirAlCotizador() {
+        function redirigirAlCotizador(role = '') {
             const overlay = document.getElementById('redirectOverlay');
+            if (role) {
+                document.getElementById('redirectSubtext').textContent = `Accediendo con perfil de: ${role}...`;
+            }
             overlay.classList.add('show');
-            // Pequeña pausa para que se vea la animación, luego redirige
             setTimeout(() => {
                 window.location.href = COTIZADOR_URL;
-            }, 900);
+            }, 800);
         }
 
-        // ============================================
-        // GESTIÓN DE USUARIOS (localStorage)
-        // ============================================
-        function getUsers() {
-            const data = localStorage.getItem('cotizador_users');
-            return data ? JSON.parse(data) : [];
-        }
-
-        function saveUsers(users) {
-            localStorage.setItem('cotizador_users', JSON.stringify(users));
+        function saveSession(sessionData) {
+            localStorage.setItem('cotizador_session', JSON.stringify(sessionData));
         }
 
         function getSession() {
             const data = localStorage.getItem('cotizador_session');
             return data ? JSON.parse(data) : null;
-        }
-
-        function saveSession(user) {
-            localStorage.setItem('cotizador_session', JSON.stringify({
-                name: user.name,
-                email: user.email,
-                loginTime: new Date().toISOString()
-            }));
         }
 
         function clearSession() {
@@ -422,11 +456,13 @@
         // ============================================
         // REGISTRO
         // ============================================
-        function handleRegister(e) {
+        async function handleRegister(e) {
             e.preventDefault();
 
+            const tenantName = document.getElementById('regTenant').value.trim();
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const role = document.getElementById('regRole').value;
             const password = document.getElementById('regPassword').value;
             const confirm = document.getElementById('regConfirm').value;
             const confirmError = document.getElementById('confirmError');
@@ -442,58 +478,122 @@
                 return;
             }
 
-            const users = getUsers();
-            if (users.find(u => u.email === email)) {
-                showMessage('Este correo ya está registrado. Inicia sesión.', 'error');
+            const slug = tenantName.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 30);
+
+            // Intentar registro en Backend API
+            try {
+                const response = await fetch(`${API_URL}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tenant_slug: slug || 'taller',
+                        tenant_name: tenantName,
+                        email: email,
+                        password: password,
+                        full_name: name,
+                        role: role
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    saveSession({
+                        token: data.access_token,
+                        user: data.user,
+                        name: data.user.full_name,
+                        email: data.user.email,
+                        role: data.user.role,
+                        tenantName: data.user.tenant_name || tenantName
+                    });
+                    showMessage('¡Taller registrado exitosamente!', 'success');
+                    setTimeout(() => redirigirAlCotizador(role), 1000);
+                    return;
+                }
+            } catch (err) {
+                console.warn("Backend no disponible, usando fallback local:", err);
+            }
+
+            // Fallback localStorage
+            const localUsers = JSON.parse(localStorage.getItem('cotizador_users') || '[]');
+            if (localUsers.find(u => u.email === email)) {
+                showMessage('Este correo ya está registrado.', 'error');
                 return;
             }
 
-            users.push({ name, email, password });
-            saveUsers(users);
+            const newUser = {
+                id: Date.now(),
+                name, email, password, role, tenantName
+            };
+            localUsers.push(newUser);
+            localStorage.setItem('cotizador_users', JSON.stringify(localUsers));
 
-            showMessage('¡Registro exitoso! Iniciando sesión automáticamente...', 'success');
+            saveSession({
+                name: newUser.name,
+                email: newUser.email,
+                role: newUser.role,
+                tenantName: newUser.tenantName
+            });
 
-            // Auto-login tras registro
-            const newUser = { name, email };
-            saveSession(newUser);
-
-            document.getElementById('formRegister').reset();
-
-            setTimeout(() => {
-                redirigirAlCotizador();
-            }, 1200);
+            showMessage('¡Registro exitoso! Accediendo...', 'success');
+            setTimeout(() => redirigirAlCotizador(role), 1000);
         }
 
         // ============================================
         // LOGIN
         // ============================================
-        function handleLogin(e) {
+        async function handleLogin(e) {
             e.preventDefault();
 
             const email = document.getElementById('loginEmail').value.trim().toLowerCase();
             const password = document.getElementById('loginPassword').value;
 
-            const users = getUsers();
-            const user = users.find(u => u.email === email && u.password === password);
+            // Intentar login con backend FastAPI
+            try {
+                const response = await fetch(`${API_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
 
-            if (!user) {
-                showMessage('Credenciales incorrectas. Verifica tu correo y contraseña.', 'error');
-                return;
+                if (response.ok) {
+                    const data = await response.json();
+                    saveSession({
+                        token: data.access_token,
+                        user: data.user,
+                        name: data.user.full_name,
+                        email: data.user.email,
+                        role: data.user.role,
+                        tenantName: data.user.tenant_name
+                    });
+                    showMessage(`Bienvenido, ${data.user.full_name} (${data.user.role}).`, 'success');
+                    setTimeout(() => redirigirAlCotizador(data.user.role), 700);
+                    return;
+                } else {
+                    const err = await response.json();
+                    showMessage(err.detail || 'Credenciales incorrectas.', 'error');
+                    return;
+                }
+            } catch (err) {
+                console.warn("Backend API offline, usando fallback demo...");
             }
 
-            saveSession(user);
-            showMessage(`Bienvenido, ${user.name}. Redirigiendo...`, 'success');
-            document.getElementById('formLogin').reset();
-
-            // Redirigir al cotizador
-            setTimeout(() => {
-                redirigirAlCotizador();
-            }, 700);
+            // Fallback local
+            const localUsers = JSON.parse(localStorage.getItem('cotizador_users') || '[]');
+            const user = localUsers.find(u => u.email === email && u.password === password);
+            if (user) {
+                saveSession({
+                    name: user.name,
+                    email: user.email,
+                    role: user.role || 'Vendedor',
+                    tenantName: user.tenantName || 'Taller Local'
+                });
+                showMessage(`Bienvenido, ${user.name}.`, 'success');
+                setTimeout(() => redirigirAlCotizador(user.role), 700);
+            } else {
+                showMessage('Credenciales incorrectas. Verifica correo y contraseña.', 'error');
+            }
         }
 
-        // ============================================
-        // CERRAR SESIÓN
-        // ============================================
         function cerrarSesion() {
             clearSession();
             showMessage('Sesión cerrada correctamente.', 'info');
@@ -501,442 +601,16 @@
             switchTab('login');
         }
 
-        // ============================================
-        // VERIFICAR SESIÓN ACTIVA AL CARGAR
-        // ============================================
         window.addEventListener('DOMContentLoaded', () => {
             const session = getSession();
             const logoutBtn = document.getElementById('logoutBtn');
 
             if (session) {
-                // Mostrar botón de cerrar sesión
                 logoutBtn.style.display = 'block';
-
-                // Mostrar mensaje y redirigir automáticamente
-                showMessage(`Sesión activa: ${session.name}. Redirigiendo al cotizador...`, 'success');
-
+                showMessage(`Sesión activa: ${session.name || session.email} (${session.role || 'Usuario'}). Redirigiendo...`, 'success');
                 setTimeout(() => {
-                    redirigirAlCotizador();
-                }, 1000);
-            }
-        });
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso | Sistema de Cotización - Aluminio & Vidrio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #1e2a3a 0%, #0f172a 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 440px;
-            padding: 40px 32px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .logo-header h1 {
-            font-size: 1.8rem;
-            color: #1e293b;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-header h1 span {
-            color: #f97316;
-        }
-
-        .logo-header p {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin-top: 6px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 8px;
-            background: #f1f5f9;
-            padding: 6px;
-            border-radius: 14px;
-            margin-bottom: 28px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: transparent;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: #64748b;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .tab-btn.active {
-            background: #ffffff;
-            color: #0f172a;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-panel {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .form-panel.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .input-group {
-            margin-bottom: 18px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 6px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            outline: none;
-            background: #f8fafc;
-        }
-
-        .input-group input:focus {
-            border-color: #f97316;
-            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
-            background: #ffffff;
-        }
-
-        .input-group input.error {
-            border-color: #ef4444;
-            background: #fef2f2;
-        }
-
-        .error-msg {
-            font-size: 0.75rem;
-            color: #ef4444;
-            margin-top: 4px;
-            display: none;
-        }
-
-        .error-msg.show {
-            display: block;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            color: white;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.2s;
-            margin-top: 8px;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.3);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        .message-box {
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            margin-bottom: 16px;
-            display: none;
-        }
-
-        .message-box.success {
-            display: block;
-            background: #f0fdf4;
-            color: #166534;
-            border: 1px solid #bbf7d0;
-        }
-
-        .message-box.error {
-            display: block;
-            background: #fef2f2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 0.75rem;
-            color: #94a3b8;
-            line-height: 1.5;
-        }
-
-        .footer-note strong {
-            color: #64748b;
-        }
-
-        /* Simula el logo técnico */
-        .tech-icon {
-            display: inline-block;
-            font-size: 2.2rem;
-            margin-bottom: 8px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="logo-header">
-            <div class="tech-icon">⚙️</div>
-            <h1>Aluminio <span>&</span> Vidrio</h1>
-            <p>Sistema de Cotización Técnica</p>
-        </div>
-
-        <!-- Pestañas -->
-        <div class="tabs">
-            <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Iniciar Sesión</button>
-            <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">Registrarse</button>
-        </div>
-
-        <!-- Mensajes globales -->
-        <div id="globalMessage" class="message-box"></div>
-
-        <!-- Formulario Login -->
-        <div id="panelLogin" class="form-panel active">
-            <form id="formLogin" onsubmit="handleLogin(event)">
-                <div class="input-group">
-                    <label for="loginEmail">Correo Electrónico</label>
-                    <input type="email" id="loginEmail" placeholder="ejemplo@correo.com" required>
-                </div>
-                <div class="input-group">
-                    <label for="loginPassword">Contraseña</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn-submit">Acceder al Cotizador</button>
-            </form>
-        </div>
-
-        <!-- Formulario Registro -->
-        <div id="panelRegister" class="form-panel">
-            <form id="formRegister" onsubmit="handleRegister(event)">
-                <div class="input-group">
-                    <label for="regName">Nombre Completo</label>
-                    <input type="text" id="regName" placeholder="Juan Pérez" required>
-                </div>
-                <div class="input-group">
-                    <label for="regEmail">Correo Electrónico</label>
-                    <input type="email" id="regEmail" placeholder="ejemplo@correo.com" required>
-                </div>
-                <div class="input-group">
-                    <label for="regPassword">Contraseña (mín. 6 caracteres)</label>
-                    <input type="password" id="regPassword" placeholder="••••••••" minlength="6" required>
-                </div>
-                <div class="input-group">
-                    <label for="regConfirm">Confirmar Contraseña</label>
-                    <input type="password" id="regConfirm" placeholder="••••••••" required>
-                    <span class="error-msg" id="confirmError">Las contraseñas no coinciden</span>
-                </div>
-                <button type="submit" class="btn-submit">Crear Cuenta</button>
-            </form>
-        </div>
-
-        <div class="footer-note">
-            <strong>Demo segura</strong> · Los datos se guardan localmente en tu navegador.<br>
-            Al continuar aceptas los términos del sistema de cotización.
-        </div>
-    </div>
-
-    <script>
-        // ============================================
-        // CONFIGURACIÓN - URL DEL COTIZADOR
-        // ============================================
-        const COTIZADOR_URL = "https://0ariel02.github.io/Aluminio-vidrio-Aluminio-Vidrio-CAT-LOGO-T-CNICO/";
-
-        // ============================================
-        // UTILIDADES
-        // ============================================
-        function showMessage(text, type = 'error') {
-            const box = document.getElementById('globalMessage');
-            box.textContent = text;
-            box.className = `message-box ${type}`;
-            setTimeout(() => {
-                box.className = 'message-box';
-            }, 4000);
-        }
-
-        function switchTab(tab) {
-            const tabLogin = document.getElementById('tabLogin');
-            const tabRegister = document.getElementById('tabRegister');
-            const panelLogin = document.getElementById('panelLogin');
-            const panelRegister = document.getElementById('panelRegister');
-
-            if (tab === 'login') {
-                tabLogin.classList.add('active');
-                tabRegister.classList.remove('active');
-                panelLogin.classList.add('active');
-                panelRegister.classList.remove('active');
-            } else {
-                tabRegister.classList.add('active');
-                tabLogin.classList.remove('active');
-                panelRegister.classList.add('active');
-                panelLogin.classList.remove('active');
-            }
-            // Limpiar mensajes
-            document.getElementById('globalMessage').className = 'message-box';
-        }
-
-        // ============================================
-        // GESTIÓN DE USUARIOS (localStorage)
-        // ============================================
-        function getUsers() {
-            const data = localStorage.getItem('cotizador_users');
-            return data ? JSON.parse(data) : [];
-        }
-
-        function saveUsers(users) {
-            localStorage.setItem('cotizador_users', JSON.stringify(users));
-        }
-
-        // ============================================
-        // REGISTRO
-        // ============================================
-        function handleRegister(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim().toLowerCase();
-            const password = document.getElementById('regPassword').value;
-            const confirm = document.getElementById('regConfirm').value;
-            const confirmError = document.getElementById('confirmError');
-
-            // Validar confirmación
-            if (password !== confirm) {
-                confirmError.classList.add('show');
-                return;
-            }
-            confirmError.classList.remove('show');
-
-            // Validar longitud
-            if (password.length < 6) {
-                showMessage('La contraseña debe tener al menos 6 caracteres.', 'error');
-                return;
-            }
-
-            // Verificar si el usuario ya existe
-            const users = getUsers();
-            if (users.find(u => u.email === email)) {
-                showMessage('Este correo ya está registrado. Inicia sesión.', 'error');
-                return;
-            }
-
-            // Guardar usuario (en un sistema real, aquí se hashearía la contraseña)
-            users.push({ name, email, password });
-            saveUsers(users);
-
-            showMessage('¡Registro exitoso! Ahora puedes iniciar sesión.', 'success');
-            
-            // Limpiar formulario y cambiar a login
-            document.getElementById('formRegister').reset();
-            setTimeout(() => {
-                switchTab('login');
-                document.getElementById('loginEmail').value = email;
-            }, 1500);
-        }
-
-        // ============================================
-        // LOGIN
-        // ============================================
-        function handleLogin(e) {
-            e.preventDefault();
-
-            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-            const password = document.getElementById('loginPassword').value;
-
-            const users = getUsers();
-            const user = users.find(u => u.email === email && u.password === password);
-
-            if (!user) {
-                showMessage('Credenciales incorrectas. Verifica tu correo y contraseña.', 'error');
-                return;
-            }
-
-            // Guardar sesión activa
-            localStorage.setItem('cotizador_session', JSON.stringify({ 
-                name: user.name, 
-                email: user.email,
-                loginTime: new Date().toISOString()
-            }));
-
-            showMessage(`Bienvenido, ${user.name}. Redirigiendo al cotizador...`, 'success');
-
-            // Redirigir después de un breve delay
-            setTimeout(() => {
-                window.location.href = COTIZADOR_URL;
-            }, 1200);
-        }
-
-        // ============================================
-        // VERIFICAR SESIÓN ACTIVA AL CARGAR
-        // ============================================
-        window.addEventListener('DOMContentLoaded', () => {
-            const session = localStorage.getItem('cotizador_session');
-            if (session) {
-                try {
-                    const user = JSON.parse(session);
-                    showMessage(`Sesión activa: ${user.name}. Redirigiendo...`, 'success');
-                    setTimeout(() => {
-                        window.location.href = COTIZADOR_URL;
-                    }, 1500);
-                } catch (e) {
-                    localStorage.removeItem('cotizador_session');
-                }
+                    redirigirAlCotizador(session.role);
+                }, 1200);
             }
         });
     </script>
