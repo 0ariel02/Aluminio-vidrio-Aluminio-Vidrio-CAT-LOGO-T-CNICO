@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: aluminio_db
+    restart: always
+    environment:
+      POSTGRES_DB: aluminio_vidrio
+      POSTGRES_USER: plascencia_admin
+      POSTGRES_PASSWORD: secretpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U plascencia_admin -d aluminio_vidrio"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aluminio_backend
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://plascencia_admin:secretpassword@db:5432/aluminio_vidrio
+      - JWT_SECRET=plascencia-super-production-secret-2026
+      - PORT=8000
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:
